@@ -9,6 +9,7 @@
 Adafruit_AMG88xx AMG;
 Servo iservo;
 float pixels[AMG_pixel_array_size];
+long person [2][2];  
 void setup(){
     Serial.begin(9600);
     AMG.begin();
@@ -19,6 +20,10 @@ void setup(){
 void loop(){
     for (int i = 0; i<= 180 ;i++){
         iservo.write(i);
-  
+        if ( is_human() && is_obejct()){
+            person[0][0] = get_distance();
+            person[0][1] = i;
+        }
     }
+    
 }
