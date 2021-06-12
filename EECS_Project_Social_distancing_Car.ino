@@ -6,15 +6,16 @@
 #include "AMG.h"
 #include "hc-sro4_self.h"
 #define servo_pin 9
-Adafruit_AMG88xx AMG;
+Adafruit_AMG88xx amg;
 Servo iservo;
 long distance = 0;
-// float pixels[AMG_pixel_array_size];
+float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
+
 // long person [2][2];  
 void setup(){
     Serial.begin(9600);
     HC_sro4_init();
-    // AMG.begin();
+    AMG_init();
     iservo.attach(servo_pin); //support only on 9 & 10
     iservo.write(15);
     delay(1000);
@@ -23,21 +24,15 @@ void setup(){
 void loop(){
     for (int i = 15; i<= 165 ;i++){
         iservo.write(i);
+        distance = get_distance(i);
+        amg_get_pixel(pixels);
         delay(30);
-        distance = get_distance();
-        Serial.print("angle = ");
-        Serial.print(i);
-        Serial.print(", distance = ");
-        Serial.println(distance);
     }
     for (int i = 165; i >= 15 ;i--){
         iservo.write(i);
+        distance = get_distance(i);
+        amg_get_pixel(pixels);
         delay(30);
-        distance = get_distance();
-        Serial.print("angle = ");
-        Serial.print(i);
-        Serial.print(", distance = ");
-        Serial.println(distance);
     }
-    delay(2000);
+    delay(1000);
 }
