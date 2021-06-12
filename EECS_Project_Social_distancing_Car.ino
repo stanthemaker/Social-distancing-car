@@ -24,6 +24,5 @@ void loop(){
             person[0][0] = get_distance();
             person[0][1] = i;
         }
-    }
-    
+    //save point 
 }
