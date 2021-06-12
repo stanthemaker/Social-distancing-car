@@ -2,21 +2,21 @@
 #define echoPin 6
 void HC_sro4_init(){
     pinMode(trigPin, OUTPUT);
-    pinMode(echoPin, OUTPUT);
+    pinMode(echoPin, INTPUT);
 }
-long microsecondsToCentimeters(long microseconds) {
-   return microseconds / 29 / 2;
-}
-long get_distance(){
-    long duration, distance_cm;
+
+int get_distance(){
+    Serial.println("in function");
+    long duration = 0 ;
+    int distance_cm = 0;
     digitalWrite(trigPin, LOW);
     delayMicroseconds(2);
+
     digitalWrite(trigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
+
     duration = pulseIn(echoPin, HIGH);
-    distance_cm = microsecondsToCentimeters(duration);
-    Serial.print("cm :");
-    Serial.println(distance_cm);
+    distance_cm = duration * 0.034 /2;
     return distance_cm;
 }
