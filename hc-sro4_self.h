@@ -24,9 +24,11 @@ int get_distance(){
 }
 void print_picture(int * picture){
     for (int i = 0;i < arraysize; i++){
+        Serial.print(i+30);
+        Serial.print("*.");
         Serial.print(picture[i]);
         Serial.print(" ");
-        if (!(i % 30) and (i)){
+        if (!(i % 20) and (i)){
             Serial.println();
         }
     }
