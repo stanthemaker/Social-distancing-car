@@ -6,33 +6,46 @@
 #include "AMG.h"
 #include "hc-sro4_self.h"
 #define servo_pin 9
+#define arraysize 121
+#define start_angle 30
+#define end_angle 150
 Adafruit_AMG88xx amg;
 Servo iservo;
 long distance = 0;
 float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
-
-// long person [2][2];  
+int picture [arraysize] = {};
+class Person{
+    public:
+        int distance_range [30];
+        int left_angle = 0;
+        int right_angle = 0;
+};
 void setup(){
+    Person person1, person2;
     Serial.begin(9600);
     HC_sro4_init();
     AMG_init();
     iservo.attach(servo_pin); //support only on 9 & 10
-    iservo.write(15);
+    iservo.write(30);
     delay(1000);
 }
 
 void loop(){
-    for (int i = 15; i<= 165 ;i++){
+    // std::fill (picture, picture + arraysize, 0);
+    for (int i = start_angle; i<= end_angle ;i++){
         iservo.write(i);
-        distance = get_distance(i);
-        amg_get_pixel(pixels);
+        // Serial.print("angle = ");
+        // Serial.print(i);
+        picture [i-30] = get_distance()/2 ;
+        // amg_get_pixel(pixels);
         delay(30);
     }
-    for (int i = 165; i >= 15 ;i--){
+    for (int i = end_angle; i >= start_angle ;i--){
         iservo.write(i);
-        distance = get_distance(i);
-        amg_get_pixel(pixels);
+        picture [i-30] += get_distance()/2 ; 
+        // amg_get_pixel(pixels);
         delay(30);
     }
+    print_picture(picture);
     delay(1000);
 }

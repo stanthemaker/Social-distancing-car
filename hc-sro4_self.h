@@ -1,11 +1,12 @@
 #define trigPin 7
 #define echoPin 6
+#define arraysize 121
 void HC_sro4_init(){
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
 }
 
-int get_distance(int i){
+int get_distance(){
     long duration = 0 ;
     int distance_cm = 0;
     digitalWrite(trigPin, LOW);
@@ -17,9 +18,17 @@ int get_distance(int i){
 
     duration = pulseIn(echoPin, HIGH);
     distance_cm = duration * 0.034 /2;
-    Serial.print("angle = ");
-    Serial.print(i);
-    Serial.print(", distance = ");
-    Serial.println(distance_cm);
+    // Serial.print(", distance = ");
+    // Serial.println(distance_cm);
     return distance_cm;
+}
+void print_picture(int * picture){
+    for (int i = 0;i < arraysize; i++){
+        Serial.print(picture[i]);
+        Serial.print(" ");
+        if (!(i % 30) and (i)){
+            Serial.println();
+        }
+    }
+    Serial.println();
 }
