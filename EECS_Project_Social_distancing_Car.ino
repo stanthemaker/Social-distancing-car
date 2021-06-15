@@ -40,11 +40,18 @@ void loop(){
         // amg_get_pixel(pixels);
         delay(30);
     }
-    // print_picture();
+    print_picture();
     object_detection(person);
-    Serial.print("first person = ");
-    Serial.println(person[0].distance);
-    Serial.print("second person = ");
-    Serial.println(person[1].distance);
+    Serial.print("2 person = ");
+
+    for (int i = 0 ;i <2 ; i++){
+        Serial.println(person[i].distance);
+        Serial.print("angle = ");
+        Serial.print(person[i].left_angle);
+        Serial.print(" ");
+        Serial.println(person[i].right_angle);
+        Serial.println(" ");
+    }
+    
     delay(1000);
 }

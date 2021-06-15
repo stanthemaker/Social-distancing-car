@@ -21,22 +21,6 @@ float is_object1(int* arr){
     return true;
 }
 int main(){
-    int n=0;
-    cout << "array size = "<<endl;
-    cin >> n;
-    int i =0;
-    int * array;
-    float avg = 0;
-    array = new int [n];
-    while (i< n){
-        cin >> array [i];
-        i++;
-    }
-    if ( avg = is_object1(array) ){
-        cout << "avg = "<<avg <<endl;
-    }
-    else{
-        cout << "false"<<endl;
-    }
-    delete [] array;
+    int a = 0, b= 0 , c = 0;
+    cout << a << b <<c <<endl;
 }
