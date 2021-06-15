@@ -14,14 +14,8 @@ Servo iservo;
 long distance = 0;
 float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
 int picture [arraysize] = {};
-class Person{
-    public:
-        int distance_range [30];
-        int left_angle = 0;
-        int right_angle = 0;
-};
+Person person [2];
 void setup(){
-    Person person1, person2;
     Serial.begin(9600);
     HC_sro4_init();
     AMG_init();
@@ -36,16 +30,21 @@ void loop(){
         iservo.write(i);
         // Serial.print("angle = ");
         // Serial.print(i);
-        picture [i-30] = get_distance()/2 ;
+        picture [i - start_angle] = get_distance()/2 ;
         // amg_get_pixel(pixels);
         delay(30);
     }
     for (int i = end_angle; i >= start_angle ;i--){
         iservo.write(i);
-        picture [i-30] += get_distance()/2 ; 
+        picture [i - start_angle] += get_distance()/2 ; 
         // amg_get_pixel(pixels);
         delay(30);
     }
-    print_picture(picture);
+    // print_picture();
+    object_detection(person);
+    Serial.print("first person = ");
+    Serial.println(person[0].distance);
+    Serial.print("second person = ");
+    Serial.println(person[1].distance);
     delay(1000);
 }
