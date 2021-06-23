@@ -5,6 +5,7 @@
 #include <Adafruit_AMG88xx.h>
 #include "AMG.h"
 #include "hc-sro4_self.h"
+#include "never_gonna.h"
 #define servo_pin 9
 #define arraysize 121
 #define start_angle 30
@@ -13,14 +14,18 @@ Adafruit_AMG88xx amg;
 Servo iservo;
 long distance = 0;
 float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
-int picture [arraysize] = {};
+float picture [arraysize] = {};
 Person person [2];
+extern int nevergonna[];
+
 void setup(){
     Serial.begin(9600);
     HC_sro4_init();
     AMG_init();
     iservo.attach(servo_pin); //support only on 9 & 10
     iservo.write(30);
+    Serial.println(sizeof(nevergonna));
+    play_music(nevergonna, 114);
     delay(1000);
 }
 
@@ -40,6 +45,7 @@ void loop(){
         // amg_get_pixel(pixels);
         delay(30);
     }
+    preprocess();
     print_picture();
     object_detection(person);
     Serial.print("2 person = ");
