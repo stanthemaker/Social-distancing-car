@@ -108,10 +108,9 @@ int nevergonna[] = { //tempo = 114
   NOTE_E5,4, NOTE_D5,2,
 };
 
-void play_music(int melody[], int tempo) {
-    int notes = sizeof(melody) / sizeof(melody[0]) / 2;
-    Serial.println("in function");
-    Serial.println(sizeof(melody));
+void play_music(int melody[], int tempo , int size) {
+    // Serial.println(size);
+    int notes = size / sizeof(melody[0]) / 2;
     int wholenote = (60000 * 4) / tempo;
     int divider = 0, noteDuration = 0;
   // iterate over the notes of the melody.

@@ -24,8 +24,8 @@ void setup(){
     AMG_init();
     iservo.attach(servo_pin); //support only on 9 & 10
     iservo.write(30);
-    Serial.println(sizeof(nevergonna));
-    play_music(nevergonna, 114);
+    Serial.println();
+    play_music(nevergonna, 114, sizeof(nevergonna));
     delay(1000);
 }
 
