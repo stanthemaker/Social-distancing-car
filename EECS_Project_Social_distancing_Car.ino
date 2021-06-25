@@ -12,9 +12,9 @@
 #define end_angle 150
 Adafruit_AMG88xx amg;
 Servo iservo;
-long distance = 0;
 float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
 float picture [arraysize] = {};
+float temp [arraysize] = {};
 Person person [2];
 extern int nevergonna[];
 
@@ -25,7 +25,7 @@ void setup(){
     iservo.attach(servo_pin); //support only on 9 & 10
     iservo.write(30);
     Serial.println();
-    play_music(nevergonna, 114, sizeof(nevergonna));
+    // play_music(nevergonna, 114, sizeof(nevergonna));
     delay(1000);
 }
 
@@ -36,20 +36,22 @@ void loop(){
         // Serial.print("angle = ");
         // Serial.print(i);
         picture [i - start_angle] = get_distance()/2 ;
-        // amg_get_pixel(pixels);
+        temp [i - start_angle] = amg_get_temp(pixels)/2;
         delay(30);
     }
     for (int i = end_angle; i >= start_angle ;i--){
         iservo.write(i);
         picture [i - start_angle] += get_distance()/2 ; 
+        temp [i - start_angle] += amg_get_temp(pixels)/2;
         // amg_get_pixel(pixels);
         delay(30);
     }
     preprocess();
     print_picture();
     object_detection(person);
-    Serial.print("2 person = ");
-
+    Serial.println("temp picture = ");
+    print_picture_temp();
+    Serial.println("2 person = ");
     for (int i = 0 ;i <2 ; i++){
         Serial.println(person[i].distance);
         Serial.print("angle = ");
@@ -58,6 +60,9 @@ void loop(){
         Serial.println(person[i].right_angle);
         Serial.println(" ");
     }
-    
-    delay(1000);
+    Serial.print("social_distance = ");
+    Serial.println(social_distance(person[0].distance,person[1].distance,abs(person[0].middle_angle - person[1].middle_angle)));
+    while(1){
+      delay(10000);
+    }
 }

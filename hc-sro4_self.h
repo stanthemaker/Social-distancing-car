@@ -6,9 +6,10 @@
 extern float picture[];
 class Person{
     public:
-        float distance = 0;
+        double distance = 0;
         int left_angle = 0;
         int right_angle = 0;
+        double middle_angle = 0;
 };
 
 void HC_sro4_init(){
@@ -45,13 +46,14 @@ void preprocess(){
                 picture[i] = (picture[i+1] + picture[i-1] )/2;
             }
         }
+        picture[i] = (picture[i] > 200) ? 0 :picture[i];
     }
 }
 void object_detection(Person person [2]){
     // int rate [arraysize-1] = {0};
     int count = 0, arr_size = 0 ,marker1 = 0, marker2 = 0 ;
     float  avg = 0;
-    Serial.println("in funct ");
+    // Serial.println("in funct ");
     for (int i = 0; i< arraysize-1 ; i++){
         //  rate [i] = abs(picture[i] - picture[i+1]);
         if (count == 2){
@@ -60,31 +62,35 @@ void object_detection(Person person [2]){
         if (abs(picture[i] - picture[i+1]) >= 10){ //abrupt rise or drop
             marker2 = i ;
             avg = 0;
-            Serial.println(marker1);
-            Serial.println(marker2);
+            // Serial.println(marker1);
+            // Serial.println(marker2);
             arr_size = marker2- marker1 +1;
-            Serial.print("Size = ");
-            Serial.println(arr_size);
-            Serial.print("arr = "); 
+            // Serial.print("Size = ");
+            // Serial.println(arr_size);
+            // Serial.print("arr = "); 
             for (int j=marker1 ; j< marker1 + arr_size;j++){
-                Serial.print(picture[j]);
-                Serial.print(" ");
+                // Serial.print(picture[j]);
+                // Serial.print(" ");
                 avg += (picture[j] / arr_size); 
             }
-            Serial.print("avg = ");
-            Serial.println(avg);
-            if (arr_size <= 5 || arr_size >= 50 || avg >150 || avg <30){
+            // Serial.print("avg = ");
+            // Serial.println(avg);
+            if (arr_size <= 20 || arr_size >= 100 || avg >150 || avg <30){
                 marker1 = marker2 +1 ;
                 i ++;
                 continue;
             }
             person[count].distance = avg ;
-            person[count].left_angle = marker1 + start_angle;
-            person[count].right_angle = marker2 + start_angle;
-            marker1 = marker2 +1 ;
+            person[count].left_angle = marker1 ;
+            person[count].right_angle = marker2 ;
+            person[count].middle_angle = (marker1 + marker2)/2;
+            marker1 = marker2 + 1 ;
             i ++;
             count++; 
         }
     }
 }
-
+double social_distance(double a, double b , double angle){
+    double D = a*a + b*b -2*a*b*cos(angle*PI/180);
+    return(sqrt(D));
+}
