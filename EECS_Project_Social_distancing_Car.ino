@@ -30,7 +30,6 @@ void setup(){
 }
 
 void loop(){
-    // std::fill (picture, picture + arraysize, 0);
     for (int i = start_angle; i<= end_angle ;i++){
         iservo.write(i);
         // Serial.print("angle = ");
@@ -43,25 +42,28 @@ void loop(){
         iservo.write(i);
         picture [i - start_angle] += get_distance()/2 ; 
         temp [i - start_angle] += amg_get_temp(pixels)/2;
-        // amg_get_pixel(pixels);
         delay(30);
     }
-    preprocess();
-    print_picture();
-    object_detection(person);
+    // preprocess();
+    // print_picture_distance();
+    // object_detection(person);
     Serial.println("temp picture = ");
     print_picture_temp();
-    Serial.println("2 person = ");
+    get_angle_range(person[0].angle, person[1].angle);
+    // Serial.println("2 person = ");
+    // for (int i = 0 ;i <2 ; i++){
+    //     Serial.println(person[i].distance);
+    //     Serial.print("angle = ");
+    //     Serial.print(person[i].left_angle);
+    //     Serial.print(" ");
+    //     Serial.println(person[i].right_angle);
+    //     Serial.println(" ");
+    // }
+    // Serial.print("social_distance = ");
+    // Serial.println(social_distance(person[0].distance,person[1].distance,abs(person[0].middle_angle - person[1].middle_angle)));
     for (int i = 0 ;i <2 ; i++){
-        Serial.println(person[i].distance);
-        Serial.print("angle = ");
-        Serial.print(person[i].left_angle);
-        Serial.print(" ");
-        Serial.println(person[i].right_angle);
-        Serial.println(" ");
+        person[i].distance = get_correspond_distance(person[i].angle);
     }
-    Serial.print("social_distance = ");
-    Serial.println(social_distance(person[0].distance,person[1].distance,abs(person[0].middle_angle - person[1].middle_angle)));
     while(1){
       delay(10000);
     }

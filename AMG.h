@@ -33,3 +33,30 @@ void print_picture_temp(){
     }
     Serial.println();
 }
+int get_peak(){
+    int marker = 0;
+    float max = 0;
+    for (int i = 0; i < arraysize - 4 ; i++)
+    {
+        float avg = 0;
+        for(int j = i; j< i+5; j++){
+            avg += temp [j] /5 ;
+        }
+        if ( max <= avg ){
+            max = avg; 
+            marker = i ;
+        }
+    }
+    return marker ; 
+}
+void get_angle_range(int angle_1, int angle_2){
+    angle_1 = get_peak();
+    for (int i = angle_1 ; i < angle_1 +5 ; i++){
+        temp [i] = 0;
+    }
+    angle_2 = get_peak();
+    Serial.println("angle 1 2 = ");
+    Serial.println(angle_1);
+    Serial.println(angle_2);
+    return ;
+}
