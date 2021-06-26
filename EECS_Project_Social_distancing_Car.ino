@@ -60,7 +60,7 @@ void loop(){
     //     Serial.println(" ");
     // }
     // Serial.print("social_distance = ");
-    // Serial.println(social_distance(person[0].distance,person[1].distance,abs(person[0].middle_angle - person[1].middle_angle)));
+    // Serial.println(social_distance(person[0].distance,person[1].distance,abs(person[0].angle - person[1].angle)));
     for (int i = 0 ;i <2 ; i++){
         person[i].distance = get_correspond_distance(person[i].angle);
     }
